@@ -17,20 +17,27 @@
   </header>
 
   <main id="maincontent">
-    <section role="presentation" aria-hidden="true" id="map-container">
+    <section role="Presentation" aria-hidden="true" id="map-container">
       <div id="map"></div>
     </section>
-    <section role="content">
-      <div class="filter-options" role="filters">
+    <section role="Main">
+      <div class="filter-options">
         <h2>Filter Results</h2>
-        <select class="large-6 medium-6 small-12" id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
+        <label for="neighborhoods">
+          Neighborhoods filter
+        <select class="large-6 medium-6 small-12" id="neighborhoods-select"  name="neighborhoods" onchange="updateRestaurants()">
           <option value="all">All Neighborhoods</option>
         </select>
+        </label>
+
+        <label for="cuisines">
+          Cuisines filter
         <select class="large-6 medium-6 small-12"  id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
           <option value="all">All Cuisines</option>
         </select>
+        </label>
       </div>
-      <ul id="restaurants-list" class="flex-container" role="content"></ul>
+      <ul id="restaurants-list" class="flex-container"></ul>
     </section>
   </main>
 
