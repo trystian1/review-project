@@ -22,6 +22,10 @@
             width: 25%;
         }
 
+        #map-container {
+            height: 500px!important;
+            position: relative!important;
+        }
 
     }
 
@@ -45,6 +49,11 @@
 
         .medium-3 {
             width: 25%;
+        }
+
+        #map-container {
+            height: 500px!important;
+            position: relative!important;
         }
 
     }
