@@ -6,6 +6,7 @@ self.addEventListener('install', function(event) {
       return cache.addAll([
         '/',
         'css/styles.css',
+        'node_modules/idb/lib/idb.js',
         'css/responsive-grid.css',
         'data/restaurants.json',
         'js/main.js',

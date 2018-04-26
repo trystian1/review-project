@@ -1,0 +1,26 @@
+{
+  "short_name": "Restaurants Review stage 2",
+  "name": "Restaurants Review stage 2",
+  "background_color": "#4d6b89",
+  "theme_color": "#5bc0de",
+  "icons": [
+    {
+      "src": "img/restaurant-icon.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "img/restaurant-icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "img/restaurant-icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait"
+}

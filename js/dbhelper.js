@@ -8,27 +8,41 @@ class DBHelper {
    * Change this to restaurants.json file location on your server.
    */
   static get DATABASE_URL() {
-    const port = 8000 // Change this to your server port
-    return `http://localhost:${port}/data/restaurants.json`;
+    const port = 1337 // Change this to your server port
+    return `http://localhost:${port}/restaurants`;
   }
 
   /**
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', DBHelper.DATABASE_URL);
-    xhr.onload = () => {
-      if (xhr.status === 200) { // Got a success response from server!
-        const json = JSON.parse(xhr.responseText);
-        const restaurants = json.restaurants;
-        callback(null, restaurants);
-      } else { // Oops!. Got an error from server.
-        const error = (`Request failed. Returned status of ${xhr.status}`);
-        callback(error, null);
+    console.log(idb)
+
+    DBHelper.getRestaurantsFromIndexDb().then(idbRestaurants => {
+
+      console.log(restaurants);
+
+      if (idbRestaurants.length) {
+        callback(null, idbRestaurants);
+        return;
       }
-    };
-    xhr.send();
+
+      let xhr = new XMLHttpRequest();
+      xhr.open('GET', DBHelper.DATABASE_URL);
+      xhr.onload = () => {
+        if (xhr.status === 200) { // Got a success response from server!
+          const json = JSON.parse(xhr.responseText);
+          console.log(xhr, json)
+          const restaurants = json;
+          DBHelper.setRestaurantsInIndexedDb(restaurants);
+          callback(null, restaurants);
+        } else { // Oops!. Got an error from server.
+          const error = (`Request failed. Returned status of ${xhr.status}`);
+          callback(error, null);
+        }
+      };
+      xhr.send();
+    });
   }
 
   /**
@@ -112,6 +126,8 @@ class DBHelper {
       if (error) {
         callback(error, null);
       } else {
+
+
         // Get all neighborhoods from all restaurants
         const neighborhoods = restaurants.map((v, i) => restaurants[i].neighborhood)
         // Remove duplicates from neighborhoods
@@ -150,7 +166,7 @@ class DBHelper {
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
-    return (`/img/${restaurant.photograph}`);
+    return (`/img/${restaurant.photograph}.jpg`);
   }
 
   /**
@@ -166,5 +182,48 @@ class DBHelper {
     );
     return marker;
   }
+
+  static setRestaurantsInIndexedDb(restaurants) {
+    DBHelper.openDataBase().then(db => {
+      if (!db) return;
+      var tx = db.transaction('restaurants', 'readwrite'),
+          store = tx.objectStore('restaurants');
+
+
+      restaurants.map(restaurant => {
+        store.put(restaurant);
+      });
+    })
+  }
+
+  static getRestaurantsFromIndexDb() {
+    return new Promise((resolve, reject) => {
+      DBHelper.openDataBase().then(function(db) {
+        var index = db.transaction('restaurants')
+          .objectStore('restaurants').index('by-id');
+        console.log(index.getAll())
+        return index.getAll().then(function(idbRestaurants) {
+          console.log(idbRestaurants)
+          resolve(idbRestaurants)
+        });
+
+      });
+    });
+  }
+
+  static openDataBase() {
+
+  return idb.open('recentData', 1, function(upgradeDb) {
+
+    var store = upgradeDb.createObjectStore('restaurants', {
+      keyPath: 'id',
+      autoIncrement: true
+    });
+
+    store.createIndex('by-id', 'id');
+
+  });
+
+}
 
 }

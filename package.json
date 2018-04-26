@@ -1,0 +1,22 @@
+{
+  "name": "review-project-2",
+  "version": "1.0.0",
+  "description": "--- #### _Three Stage Course Material Project - Restaurant Reviews_",
+  "main": "sw.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/trystian1/review-project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/trystian1/review-project/issues"
+  },
+  "homepage": "https://github.com/trystian1/review-project#readme",
+  "dependencies": {
+    "idb": "^2.1.1"
+  }
+}

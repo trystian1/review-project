@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
   <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
-   <link rel="stylesheet" href="css/responsive-grid.css">
+  <link rel="stylesheet" href="css/responsive-grid.css">
   <link rel="stylesheet" href="css/styles.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width">
+  <meta name="theme-color" content="#5bc0de">
+  <link rel="manifest" href="/manifest.json">
   <title>Restaurant Reviews</title>
 </head>
 
@@ -20,7 +22,7 @@
     <section role="Presentation" aria-hidden="true" id="map-container">
       <div id="map"></div>
     </section>
-    <section role="Main">
+    <section>
       <div class="filter-options">
         <h2>Filter Results</h2>
         <label for="neighborhoods">
@@ -40,10 +42,10 @@
       <ul id="restaurants-list" class="flex-container"></ul>
     </section>
   </main>
-
+  <script type="module" src="node_modules/idb/lib/idb.js"></script>
   <script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
   <script type="application/javascript" charset="utf-8" src="js/main.js"></script>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_tKbW6A5pQ-eupxI56myUnHLqYCzOjKo&libraries=places&callback=initMap"></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDP8p3kVZe096Y9s7lCwcHOQoYjDJ_Y6rE&libraries=places&callback=initMap"></script>
 
 
   <footer id="footer" class="large-6 medium-6 small-12">
