@@ -1,6 +1,17 @@
 /**
  * Common database helper functions.
  */
+  const dbPromise = idb.open('recentData', 1, function(upgradeDb) {
+
+    var store = upgradeDb.createObjectStore('restaurants', {
+      keyPath: 'id',
+      autoIncrement: true
+    });
+
+    store.createIndex('by-id', 'id');
+
+  });
+
 class DBHelper {
 
   /**
@@ -16,32 +27,33 @@ class DBHelper {
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
-    console.log(idb)
 
-    DBHelper.getRestaurantsFromIndexDb().then(idbRestaurants => {
+    DBHelper.getRestaurantsFromIndexDb()
+      .then(idbRestaurants => {
 
-      console.log(restaurants);
-
-      if (idbRestaurants.length) {
-        callback(null, idbRestaurants);
-        return;
-      }
-
-      let xhr = new XMLHttpRequest();
-      xhr.open('GET', DBHelper.DATABASE_URL);
-      xhr.onload = () => {
-        if (xhr.status === 200) { // Got a success response from server!
-          const json = JSON.parse(xhr.responseText);
-          console.log(xhr, json)
-          const restaurants = json;
-          DBHelper.setRestaurantsInIndexedDb(restaurants);
-          callback(null, restaurants);
-        } else { // Oops!. Got an error from server.
-          const error = (`Request failed. Returned status of ${xhr.status}`);
-          callback(error, null);
+        if (idbRestaurants.length || DBHelper.restaurants) {
+          if (!idbRestaurants.length) {
+            idbRestaurants = DBHelper.restaurants;
+          }
+          callback(null, idbRestaurants);
+          return;
         }
-      };
-      xhr.send();
+
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', DBHelper.DATABASE_URL);
+        xhr.onload = () => {
+          if (xhr.status === 200) { // Got a success response from server!
+            const json = JSON.parse(xhr.responseText);
+            const restaurants = json;
+            DBHelper.restaurants = restaurants;
+            DBHelper.setRestaurantsInIndexedDb(restaurants);
+            callback(null, restaurants);
+          } else { // Oops!. Got an error from server.
+            const error = (`Request failed. Returned status of ${xhr.status}`);
+            callback(error, null);
+          }
+        };
+        xhr.send();
     });
   }
 
@@ -184,7 +196,7 @@ class DBHelper {
   }
 
   static setRestaurantsInIndexedDb(restaurants) {
-    DBHelper.openDataBase().then(db => {
+    dbPromise.then(db => {
       if (!db) return;
       var tx = db.transaction('restaurants', 'readwrite'),
           store = tx.objectStore('restaurants');
@@ -198,12 +210,11 @@ class DBHelper {
 
   static getRestaurantsFromIndexDb() {
     return new Promise((resolve, reject) => {
-      DBHelper.openDataBase().then(function(db) {
+      dbPromise.then(function(db) {
         var index = db.transaction('restaurants')
           .objectStore('restaurants').index('by-id');
-        console.log(index.getAll())
+
         return index.getAll().then(function(idbRestaurants) {
-          console.log(idbRestaurants)
           resolve(idbRestaurants)
         });
 
@@ -211,19 +222,5 @@ class DBHelper {
     });
   }
 
-  static openDataBase() {
-
-  return idb.open('recentData', 1, function(upgradeDb) {
-
-    var store = upgradeDb.createObjectStore('restaurants', {
-      keyPath: 'id',
-      autoIncrement: true
-    });
-
-    store.createIndex('by-id', 'id');
-
-  });
-
-}
 
 }

@@ -2,16 +2,21 @@
 <html lang="en">
 
 <head>
-  <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
-  <link rel="stylesheet" href="css/responsive-grid.css">
-  <link rel="stylesheet" href="css/styles.css">
+  <script type="module" src="node_modules/idb/lib/idb.js"></script>
   <meta name="viewport" content="width=device-width">
   <meta name="theme-color" content="#5bc0de">
   <link rel="manifest" href="/manifest.json">
   <title>Restaurant Reviews</title>
+
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDP8p3kVZe096Y9s7lCwcHOQoYjDJ_Y6rE&libraries=places&callback=initMap"></script>
+  <script>
+    navigator.serviceWorker.register('../sw.js');
+  </script>
+
 </head>
 
 <body>
+
   <header>
     <nav>
       <h1><a href="/">Restaurant Reviews</a></h1>
@@ -20,7 +25,11 @@
 
   <main id="maincontent">
     <section role="Presentation" aria-hidden="true" id="map-container">
-      <div id="map"></div>
+
+      <div id="map">
+        <div class="loading-map"> Map is loading.....
+        </p>
+      </div>
     </section>
     <section>
       <div class="filter-options">
@@ -42,16 +51,16 @@
       <ul id="restaurants-list" class="flex-container"></ul>
     </section>
   </main>
-  <script type="module" src="node_modules/idb/lib/idb.js"></script>
-  <script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
-  <script type="application/javascript" charset="utf-8" src="js/main.js"></script>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDP8p3kVZe096Y9s7lCwcHOQoYjDJ_Y6rE&libraries=places&callback=initMap"></script>
 
+  <link defer rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
+  <link defer rel="stylesheet" href="css/responsive-grid.css">
+  <link defer rel="stylesheet" href="css/styles.css">
 
   <footer id="footer" class="large-6 medium-6 small-12">
     Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
   </footer>
 
 </body>
-
+  <script defer type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
+  <script defer type="application/javascript" charset="utf-8" src="js/main.js"></script>
 </html>

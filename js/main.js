@@ -10,8 +10,6 @@ var markers = []
 document.addEventListener('DOMContentLoaded', (event) => {
   fetchNeighborhoods();
   fetchCuisines();
-
-  navigator.serviceWorker.register('../sw.js');
 });
 
 /**
