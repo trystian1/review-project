@@ -1,3 +1,5 @@
+import idb from 'idb';
+
 /**
  * Common database helper functions.
  */
@@ -178,6 +180,11 @@ class DBHelper {
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
+
+    if(restaurant.photograph == undefined) {
+      return (`/img/10.jpg`);
+    }
+
     return (`/img/${restaurant.photograph}.jpg`);
   }
 
@@ -224,3 +231,7 @@ class DBHelper {
 
 
 }
+
+console.log(DBHelper)
+
+export default DBHelper

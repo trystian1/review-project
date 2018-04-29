@@ -9,9 +9,8 @@ self.addEventListener('install', function(event) {
         'node_modules/idb/lib/idb.js',
         'css/responsive-grid.css',
         'data/restaurants.json',
-        'js/main.js',
-        'js/restaurant_info.js',
-        'js/dbhelper.js',
+        'index.js',
+        'restaurant.js',
         'restaurant.html'
       ])
     })
